@@ -18,6 +18,8 @@ class PostListView(LoginRequiredMixin, View):
         print(comments)
 
         post_com_dict = {}
+        comment_users = []
+        is_active = True
 
         # print(posts[0].objects)
         for post in posts:
@@ -34,7 +36,6 @@ class PostListView(LoginRequiredMixin, View):
             print("AFTER")
             print(data)
             comments = Comment.objects.filter(post=post.pk).order_by('-created_on')
-            comment_users = []
             for comment in comments.values():
                 print("comment: ")
                 print(comment["author_id"])

@@ -29,7 +29,7 @@
             <p>{{ post.body }}</p>
             <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
             {% elif is_active == False %}
-            <p><strong>{{ "DeletedUser" }}</strong> {{ post.created_on }}</p>
+            <p><strong>{{ post.author }}</strong> {{ post.created_on }}</p>
             <p>{{ post.body }}</p>
             <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
             {% endif %}
@@ -49,10 +49,10 @@
 
             </div>
             {% endfor %}
-        <p>Comment Users</p>
-        {% for comment in comment_users.items %}
-        <p>{{ comment }}</p>
-        {% endfor %}
+<!--        <p>Comment Users</p>-->
+<!--        {% for comment in comment_users.items %}-->
+<!--        <p>{{ comment }}</p>-->
+<!--        {% endfor %}-->
 
     </div>
     {% endfor %}
