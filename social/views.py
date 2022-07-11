@@ -20,6 +20,7 @@ class PostListView(LoginRequiredMixin, View):
         post_com_dict = {}
         comment_users = []
         is_active = True
+        is_active1 = True
 
         # print(posts[0].objects)
         for post in posts:
@@ -27,21 +28,31 @@ class PostListView(LoginRequiredMixin, View):
             print(post.pk)
             print(post.author)
             user = UserProfile.objects.filter(user=post.author)
+
             print("user: ", user.values())
             data = {}
             for key in user.values():
                 print(key["is_active"])
                 is_active = key["is_active"]
+            Post.objects.filter(author_id=post.pk).update(is_active=is_active)
+
+
 
             print("AFTER")
             print(data)
             comments = Comment.objects.filter(post=post.pk).order_by('-created_on')
             for comment in comments.values():
-                print("comment: ")
-                print(comment["author_id"])
                 user = UserProfile.objects.filter(user = comment["author_id"])
-                print("User values: ", user.values('user_id', 'is_active'))
-                comment_users.append(user.values('user_id', 'is_active'))
+                for key in user.values():
+                    # print(key["is_active"])
+                    is_active1 = key["is_active"]
+                    Comment.objects.filter(post=post.pk).update(is_active = is_active1)
+                    # Post.objects.filter(author_id=post.pk).update(is_active=is_active1)
+            #     print("comment: ")
+            #     print(comment["author_id"])
+            #     user = UserProfile.objects.filter(user = comment["author_id"])
+            #     print("User values: ", user.values('user_id', 'is_active'))
+            #     comment_users.append(user.values('user_id', 'is_active'))
 
 
             if len(comments) > 3:
@@ -58,7 +69,7 @@ class PostListView(LoginRequiredMixin, View):
             'post_list': post_com_dict,
             'form': form,
             'is_active': is_active,
-            'comment_users' : comment_users
+            # 'comment_users' : comment_users
 
         }
 
